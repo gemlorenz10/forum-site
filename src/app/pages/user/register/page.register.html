@@ -1,0 +1,10 @@
+<div class="d-flex flex-column align-items-center">
+  <h2 class="d-block p-1 my-2">Registration</h2>
+  <form class="d-block p-1 my-1" (ngSubmit) = "onSubmitRegister($event)">
+    <input class="d-block p-1 my-3" type="email" name="email" id="email" placeholder="Email" [(ngModel)]="user.email">
+    <input class="d-block p-1 my-3" type="password" name="password" id="password" placeholder="Password" [(ngModel)]="user.password">
+    <input class="d-block p-1 my-3" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" [(ngModel)]="passwordConfirmation">
+    <input class="d-block p-1 my-3" type="text" name="display-name" id="display-name"  placeholder="Display Name" [(ngModel)]="user.displayName">
+    <button class="d-block my-3 btn btn-sm btn-primary" type="submit">Register</button>
+  </form>
+</div>
