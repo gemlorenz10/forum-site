@@ -20,10 +20,13 @@ export class LibService {
     this.open('');
   }
   openInstallPage() {
-      this.open('register/install');
+      this.open('user/install');
   }
   openUpdateProfile() {
-    this.open('update-profile');
+    this.open('user/update-profile');
+  }
+  openRegister() {
+    this.open('user/register');
   }
   open(route: string): void {
     this.router.navigate([route]);

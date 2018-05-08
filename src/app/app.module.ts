@@ -3,6 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faAngleDoubleDown);
+
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 firebase.initializeApp({
@@ -13,26 +19,40 @@ firebase.initializeApp({
   storageBucket: 'forum-site-ph.appspot.com',
   messagingSenderId: '543234154938'
 });
+
 import { FirelibraryModule } from './modules/firelibrary/core';
-import { AppComponent } from './app.component';
-import { RegisterPage } from './pages/user/register/page.register';
-import { LoaderComponent } from './components/loader/loader.component';
 import { LibService } from './providers/lib';
 
+import { RegisterPage } from './pages/user/register/register.page';
+import { ProfilePage } from './pages/user/profile/profile.page';
+import { HomePage } from './pages/home/home.page';
+
+import { AppComponent } from './app.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+
+
 const appRoutes = [
-  { path: 'register/:param', component: RegisterPage }
-  // { path: '', component: RegisterPage }
+  // User routes
+  { path: 'user/:param', component: RegisterPage },
+  { path: 'user/update-profile', component: ProfilePage },
+  { path: '', component: HomePage }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterPage,
+    ProfilePage,
+    HomePage,
+
+    FileUploadComponent,
     LoaderComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    FontAwesomeModule,
     RouterModule.forRoot(appRoutes),
     FirelibraryModule.forRoot( { firebaseApp: firebase.app(), functions: true } )
   ],

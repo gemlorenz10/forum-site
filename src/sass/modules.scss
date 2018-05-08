@@ -1,3 +1,6 @@
+/*
+.overlay - covers the whole page.
+*/
 .overlay {
     position: fixed; /* Sit on top of the page content */
     display: block; /* Hidden by default */
@@ -10,4 +13,60 @@
     background-color: rgba(0, 0, 0, 0.727); /* Black background with opacity */
     z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
     cursor: pointer;
+}
+/*
+dropdown menu
+@code 
+```
+<div class="dropdown">
+<label for="show" class="dropdown-btn">Label</label>
+<input type="checkbox" id="show" hidden>
+<div class="dropdown-content">
+<a href="#">Link 1</a>
+<a href="#">Link 2</a>
+<a href="#">Link 3</a>
+<a><label for="show">Close</label></a>
+</div>
+</div>
+```
+*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+    .dropdown-btn {
+        color: $dark-color;
+        padding: 0;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+    .dropdown-content {
+        background-color: $secondary-color;
+        position: absolute;
+        min-width: 160px;
+        // box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        a:hover {
+            background-color: $light-color;
+        }
+    }
+    #show:checked + .dropdown-content  {
+        display: block;
+    }
+    #show:checked ~ .dropdown-btn {
+        background-color: $secondary-color;
+    }
+    #show:not(:checked) + .dropdown-content {
+        display: none;
+    }
+    #show:not(:checked) ~ .dropdown-btn {
+        background-color: $light-color;
+    }
+    
 }

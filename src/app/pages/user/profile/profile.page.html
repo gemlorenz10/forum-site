@@ -1,0 +1,32 @@
+<div class="d-flex flex-column align-items-center">
+  <h2>{{ label }}</h2>
+  <form class="d-block p-1 my-3" (ngSubmit)=" onClickSubmit() ">
+    <input class="d-block p-1 my-3 w-100" type="text" name="firstname"  placeholder="*Firstname" [(ngModel)]="user.firstName">
+    <input class="d-block p-1 my-3 w-100" type="text" name="middlename" placeholder="Middlename" [(ngModel)]="user.middleName">
+    <input class="d-block p-1 my-3 w-100" type="text" name="lastname" placeholder="*Lastname" [(ngModel)]="user.lastName">
+    <!-- Gender -->
+    <div class="d-flex align-items-center">
+      <div class="p-0 m-1">
+        <span>*Gender:</span>
+      </div>
+      <div class="p-0 m-1">
+        <label class="p-1 m-0">
+          Male: <input type="radio" name="gender" id="gender-m" value="M" class="pointer" [(ngModel)]="user.gender" >
+        </label>
+      </div>
+      <div class="p-0 m-1">
+        <label class="p-1 m-0">
+          Female: <input type="radio"  name="gender" id="gender-f" value="F" class="pointer" [(ngModel)]="user.gender">
+        </label>
+      </div>
+    </div>
+    <!-- Birthdate -->
+    <div class="p-1 my-3">
+      <label>
+        <span>*Birthday:</span> <input type="date" name="birthday" [(ngModel)]="user.birthday">
+      </label>
+    </div>
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-sm btn-primary p-1 my-3 w-100" [disabled]="loader">{{ (loader) ? 'Please wait...' : 'Submit' }}</button>
+  </form>
+</div>

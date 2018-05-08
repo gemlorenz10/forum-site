@@ -1,12 +1,13 @@
 import { LibService } from './../../../providers/lib';
 import { Component, OnInit } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
 import { FireService, USER, USER_CREATE } from '../../../modules/firelibrary/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './page.register.html',
-  styleUrls: ['./page.register.scss']
+  selector: 'register-page',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss']
 })
 export class RegisterPage implements OnInit {
 
@@ -15,16 +16,20 @@ export class RegisterPage implements OnInit {
   user = <USER>{};
   passwordConfirmation;
   loader = false;
+  param = this.route.snapshot.paramMap.get('param');
 
   ngOnInit() {
+    console.log(this.param);
   }
 
   onSubmitRegister(e) {
     if ( e ) {
-       e.preventDefault();
+      e.preventDefault();
     }
+    this.loader = true;
     if (this.registerValidator()) {
       this.fire.user.register(this.user)
+      // initialize/create a user collection in firestore
       .then((re: USER_CREATE) => {
         if ( re.data ) {
           const u = <USER>{
@@ -33,22 +38,35 @@ export class RegisterPage implements OnInit {
           return this.fire.user.create(u);
         }
       })
+      // install if necessesary - initializing admin account
       .then(user => {
-        if (this.route.snapshot.paramMap.get('param') === 'install') {
+        if ( this.param === 'install') {
           this.fire.install(this.user);
         }
         return user;
       })
+      // open update profile page
       .then(user => {
-        if (user.data.id) {
-          this.lib.openUpdateProfile();
-        }
+        return this.fire.auth.onAuthStateChanged(u => {
+          if (u) {
+            console.log('Auth State: Logged in', u);
+            this.lib.openUpdateProfile();
+          } else {
+            this.lib.openInstallPage();
+            console.log('Auth state: Logged out');
+          }
+        });
+      })
+      // unsubscribe to auth listener
+      .then(unsubscribe => {
+        unsubscribe();
+        this.loader = false;
       })
       .catch(err => {
-        alert('ERROR: ' + err);
+        this.lib.failure(e, 'Error on user registration');
         this.loader = false;
       });
-    } else {
+    } else { // if register validator fails
       this.loader = false;
     }
   }
